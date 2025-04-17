@@ -82,22 +82,34 @@ public class GUI {
         int columnas = (int) Math.pow(2, variables - variables / 2);
         mapaPanel.setLayout(new GridLayout(filas + 1, columnas + 1)); // +1 para encabezados
 
-        // Encabezado superior izquierdo vacío
-        mapaPanel.add(new JLabel(""));
+        // Celda superior izquierda vacía
+        JLabel vacia = new JLabel("");
+        vacia.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        mapaPanel.add(vacia);
 
-        // Encabezados de columna
+        // Encabezados de columna en código Gray
         for (int col = 0; col < columnas; col++) {
-            String etiqueta = generarEtiqueta(col, variables - variables / 2, nombresVariables, variables / 2);
-            mapaPanel.add(new JLabel(etiqueta, SwingConstants.CENTER));
+            int gray = col ^ (col >> 1);
+            String etiqueta = String.format("%" + (variables - variables / 2) + "s", Integer.toBinaryString(gray)).replace(' ', '0');
+            JLabel encabezado = new JLabel(etiqueta, SwingConstants.CENTER);
+            encabezado.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            mapaPanel.add(encabezado);
         }
 
         // Filas
         for (int fila = 0; fila < filas; fila++) {
-            String etiqueta = generarEtiqueta(fila, variables / 2, nombresVariables, 0);
-            mapaPanel.add(new JLabel(etiqueta, SwingConstants.CENTER));
+            int gray = fila ^ (fila >> 1);
+            String etiqueta = String.format("%" + (variables / 2) + "s", Integer.toBinaryString(gray)).replace(' ', '0');
+            JLabel encabezadoFila = new JLabel(etiqueta, SwingConstants.CENTER);
+            encabezadoFila.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            mapaPanel.add(encabezadoFila);
 
             for (int col = 0; col < columnas; col++) {
-                int index = fila * columnas + col;
+                int grayCol = col ^ (col >> 1);
+                int grayFila = fila ^ (fila >> 1);
+
+                int index = grayFila * columnas + grayCol;
+
                 JLabel celda = new JLabel(String.valueOf(valores.get(index)), SwingConstants.CENTER);
                 celda.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 celda.setOpaque(true);
@@ -110,13 +122,13 @@ public class GUI {
         mapaPanel.repaint();
     }
 
-    private String generarEtiqueta(int valor, int numVariables, List<String> nombresVariables, int offset) {
-        StringBuilder etiqueta = new StringBuilder();
-        for (int i = 0; i < numVariables; i++) {
-            etiqueta.append(((valor & (1 << (numVariables - i - 1))) != 0)
-                    ? nombresVariables.get(offset + i)
-                    : nombresVariables.get(offset + i) + "'");
+
+
+    private String generarEtiqueta(int valor, int numBits) {
+        String bin = Integer.toBinaryString(valor);
+        while (bin.length() < numBits) {
+            bin = "0" + bin;
         }
-        return etiqueta.toString();
+        return bin;
     }
 }
