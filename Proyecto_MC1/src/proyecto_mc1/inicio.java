@@ -43,7 +43,6 @@ public class inicio extends javax.swing.JFrame {
         crearButton = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea3 = new javax.swing.JTextArea();
-        opButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -64,7 +63,7 @@ public class inicio extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Mapa de Karnaugh");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(518, 40, 120, 20));
 
         cargarButton.setBackground(new java.awt.Color(153, 153, 255));
         cargarButton.setText("CARGAR ARCHIVO");
@@ -94,9 +93,6 @@ public class inicio extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTextArea3);
 
         getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 70, 280, 340));
-
-        opButton.setText("OPERACIONES BOOLEANAS");
-        getContentPane().add(opButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 420, -1, -1));
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 490));
 
         pack();
@@ -172,7 +168,6 @@ public class inicio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
-    private javax.swing.JButton opButton;
     private javax.swing.JTextArea rutaText;
     // End of variables declaration//GEN-END:variables
 
