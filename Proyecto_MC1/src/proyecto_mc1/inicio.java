@@ -21,13 +21,38 @@ public class inicio extends javax.swing.JFrame {
     public inicio() {
         
         
-        initComponents();
+    initComponents();
+        
+    rutaText.setText("Arrastra, coloca o busca el archivo XML");
+    rutaText.setForeground(Color.GRAY);
+
+    rutaText.addFocusListener(new java.awt.event.FocusAdapter() {
+    @Override
+    public void focusGained(java.awt.event.FocusEvent evt) {
+        if (rutaText.getText().equals("Arrastra, coloca o busca el archivo XML")) {
+            rutaText.setText("");
+            rutaText.setForeground(Color.BLACK);
+        }
+    }
+
+    @Override
+    public void focusLost(java.awt.event.FocusEvent evt) {
+        if (rutaText.getText().isEmpty()) {
+            rutaText.setText("Arrastra, coloca o busca el archivo XML");
+            rutaText.setForeground(Color.GRAY);
+        }
+    }
+    });
+
+
         this.setLocationRelativeTo(null);
         ImageIcon imgIcon = new ImageIcon(getClass().getResource("/imagen/fondo.jpg"));
         Image imgEscalada = imgIcon.getImage().getScaledInstance(jLabel1.getWidth(),
         jLabel1.getHeight(), Image.SCALE_SMOOTH);
         Icon iconoEscalado = new ImageIcon(imgEscalada);
         jLabel1.setIcon(iconoEscalado); 
+        
+        operacionesArea.setEditable(false);
         
         new java.awt.dnd.DropTarget(rutaText, new java.awt.dnd.DropTargetListener() {
             @Override
@@ -107,6 +132,9 @@ public class inicio extends javax.swing.JFrame {
         rutaText.setColumns(20);
         rutaText.setRows(5);
         rutaText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                rutaTextFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 rutaTextFocusLost(evt);
             }
@@ -147,6 +175,9 @@ public class inicio extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+
+    
     private void rutaTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_rutaTextFocusLost
         if (rutaText.getText().isEmpty()) {
                     rutaText.setText("Arrastra, coloca o busca el archivo XML");
@@ -154,14 +185,8 @@ public class inicio extends javax.swing.JFrame {
                 }
     }//GEN-LAST:event_rutaTextFocusLost
 
-       
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (rutaText.getText().equals("Arrastra, coloca o busca el archivo CSV")) {
-                    rutaText.setText("");
-                    rutaText.setForeground(Color.BLACK); // Cambiar el color al texto normal
-                }
-            }
-   
+    
+            
             
     
     private void cargarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarButtonActionPerformed
@@ -196,6 +221,13 @@ public class inicio extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_cargarButtonActionPerformed
+
+    private void rutaTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_rutaTextFocusGained
+        if (rutaText.getText().equals("Arrastra, coloca o busca el archivo CSV")) {
+                    rutaText.setText("");
+                    rutaText.setForeground(Color.BLACK);
+                }
+    }//GEN-LAST:event_rutaTextFocusGained
 
     private void dibujarMapaKarnaugh(int variables, List<Integer> valores, List<String> nombresVariables) {
         mapaPanel.removeAll();
