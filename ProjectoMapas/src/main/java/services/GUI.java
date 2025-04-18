@@ -50,8 +50,8 @@ public class GUI {
                 File selectedFile = fileChooser.getSelectedFile();
                 rutaText.setText(selectedFile.getAbsolutePath());
 
-                Karnaugh processor = new Karnaugh();
-                Karnaugh.MapaKarnaugh mapa = processor.leerXML(selectedFile.getAbsolutePath());
+                    Karnaugh processor = new Karnaugh();
+                    Karnaugh.MapaKarnaugh mapa = processor.leerXML(selectedFile.getAbsolutePath());
 
                 if (mapa != null) {
                     Bool solver = new Bool();
@@ -122,13 +122,4 @@ public class GUI {
         mapaPanel.repaint();
     }
 
-
-
-    private String generarEtiqueta(int valor, int numBits) {
-        String bin = Integer.toBinaryString(valor);
-        while (bin.length() < numBits) {
-            bin = "0" + bin;
-        }
-        return bin;
-    }
 }

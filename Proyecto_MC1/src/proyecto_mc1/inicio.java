@@ -2,23 +2,25 @@ package proyecto_mc1;
 
 import java.awt.Image;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
+import java.util.List;
+import java.awt.*;
+import javax.swing.*;
+
+
+
 
 public class inicio extends javax.swing.JFrame {
+    
+   
 
  
     public inicio() {
+        
+        
         initComponents();
         this.setLocationRelativeTo(null);
         ImageIcon imgIcon = new ImageIcon(getClass().getResource("/imagen/fondo.jpg"));
@@ -26,6 +28,7 @@ public class inicio extends javax.swing.JFrame {
         jLabel1.getHeight(), Image.SCALE_SMOOTH);
         Icon iconoEscalado = new ImageIcon(imgEscalada);
         jLabel1.setIcon(iconoEscalado); 
+        
         
     }
 
@@ -39,10 +42,9 @@ public class inicio extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         cargarButton = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
-        crearButton = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        operacionesArea = new javax.swing.JTextArea();
+        mapaPanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -58,62 +60,39 @@ public class inicio extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(rutaText);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 340, 30));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 390, 30));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Mapa de Karnaugh");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(518, 40, 120, 20));
+        jLabel2.setText("Operaciones Booleanas");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 590, 160, 30));
 
         cargarButton.setBackground(new java.awt.Color(153, 153, 255));
-        cargarButton.setText("CARGAR ARCHIVO");
+        cargarButton.setText("CARGAR ARCHIVO Y CREAR MAPA");
         cargarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cargarButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(cargarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, -1, -1));
+        getContentPane().add(cargarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, -1, -1));
 
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jScrollPane4.setViewportView(jTextArea4);
+        operacionesArea.setColumns(20);
+        operacionesArea.setRows(5);
+        jScrollPane4.setViewportView(operacionesArea);
 
-        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 350, 270));
+        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 620, 680, 140));
 
-        crearButton.setText("CREAR MAPA DE KARNAUGH");
-        crearButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                crearButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(crearButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 430, -1, -1));
+        mapaPanel.setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(mapaPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 680, 440));
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
-
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 70, 280, 340));
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 490));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Mapa de Karnaugh");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 80, 130, 40));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 780));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cargarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarButtonActionPerformed
-               
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("XML files", "xml"));
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            rutaText.setText(selectedFile.getAbsolutePath());
-        }
-        
-    }//GEN-LAST:event_cargarButtonActionPerformed
-
-    private void crearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_crearButtonActionPerformed
 
     private void rutaTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_rutaTextFocusLost
         if (rutaText.getText().isEmpty()) {
@@ -122,6 +101,87 @@ public class inicio extends javax.swing.JFrame {
                 }
     }//GEN-LAST:event_rutaTextFocusLost
 
+    private void cargarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarButtonActionPerformed
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("XML files", "xml"));
+        int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            rutaText.setText(selectedFile.getAbsolutePath());
+            
+            Karnaugh processor = new Karnaugh();
+            Karnaugh.MapaKarnaugh mapa = processor.leerXML(selectedFile.getAbsolutePath());
+            
+            if (mapa != null) {
+                   
+                Bool solver = new Bool();
+                String canonica = solver.calcularFuncionBooleana(mapa.variables, mapa.valores, mapa.nombresVariables);
+                String simplificada = solver.simplificarFuncion(mapa.variables, mapa.valores, mapa.nombresVariables);
+                
+                int compuertas = solver.calcularCompuertas(simplificada);
+
+                operacionesArea.setText("Función Booleana Canónica:\n" + canonica +
+                    "\n\nFunción Booleana Simplificada:\n" + simplificada +
+                    "\n\nCompuertas necesarias: " + compuertas);
+
+                dibujarMapaKarnaugh(mapa.variables, mapa.valores, mapa.nombresVariables);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al procesar el archivo XML.");
+                }
+        }
+        
+    }//GEN-LAST:event_cargarButtonActionPerformed
+
+    private void dibujarMapaKarnaugh(int variables, List<Integer> valores, List<String> nombresVariables) {
+        mapaPanel.removeAll();
+
+        int filas = (int) Math.pow(2, variables / 2);
+        int columnas = (int) Math.pow(2, variables - variables / 2);
+        mapaPanel.setLayout(new GridLayout(filas + 1, columnas + 1)); // +1 para encabezados
+
+        // Celda superior izquierda vacía
+        JLabel vacia = new JLabel("");
+        vacia.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        mapaPanel.add(vacia);
+
+        // Encabezados de columna en código Gray
+        for (int col = 0; col < columnas; col++) {
+            int gray = col ^ (col >> 1);
+            String etiqueta = String.format("%" + (variables - variables / 2) + "s", Integer.toBinaryString(gray)).replace(' ', '0');
+            JLabel encabezado = new JLabel(etiqueta, SwingConstants.CENTER);
+            encabezado.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            mapaPanel.add(encabezado);
+        }
+
+        // Filas
+        for (int fila = 0; fila < filas; fila++) {
+            int gray = fila ^ (fila >> 1);
+            String etiqueta = String.format("%" + (variables / 2) + "s", Integer.toBinaryString(gray)).replace(' ', '0');
+            JLabel encabezadoFila = new JLabel(etiqueta, SwingConstants.CENTER);
+            encabezadoFila.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            mapaPanel.add(encabezadoFila);
+
+            for (int col = 0; col < columnas; col++) {
+                int grayCol = col ^ (col >> 1);
+                int grayFila = fila ^ (fila >> 1);
+
+                int index = grayFila * columnas + grayCol;
+
+                JLabel celda = new JLabel(String.valueOf(valores.get(index)), SwingConstants.CENTER);
+                celda.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                celda.setOpaque(true);
+                celda.setBackground(Color.WHITE);
+                mapaPanel.add(celda);
+            }
+        }
+
+        mapaPanel.revalidate();
+        mapaPanel.repaint();
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -160,14 +220,13 @@ public class inicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cargarButton;
-    private javax.swing.JButton crearButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextArea jTextArea4;
+    private javax.swing.JPanel mapaPanel;
+    private javax.swing.JTextArea operacionesArea;
     private javax.swing.JTextArea rutaText;
     // End of variables declaration//GEN-END:variables
 
