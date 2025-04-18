@@ -29,6 +29,59 @@ public class inicio extends javax.swing.JFrame {
         Icon iconoEscalado = new ImageIcon(imgEscalada);
         jLabel1.setIcon(iconoEscalado); 
         
+        new java.awt.dnd.DropTarget(rutaText, new java.awt.dnd.DropTargetListener() {
+            @Override
+            public void dragEnter(java.awt.dnd.DropTargetDragEvent dtde) {}
+
+            @Override
+            public void dragOver(java.awt.dnd.DropTargetDragEvent dtde) {}
+
+            @Override
+            public void dropActionChanged(java.awt.dnd.DropTargetDragEvent dtde) {}
+
+            @Override
+            public void dragExit(java.awt.dnd.DropTargetEvent dte) {}
+
+            @Override
+            public void drop(java.awt.dnd.DropTargetDropEvent dtde) {
+                try {
+                    dtde.acceptDrop(java.awt.dnd.DnDConstants.ACTION_COPY);
+                    java.util.List<File> droppedFiles = (java.util.List<File>)
+                            dtde.getTransferable().getTransferData(java.awt.datatransfer.DataFlavor.javaFileListFlavor);
+                    for (File file : droppedFiles) {
+                        if (file.getName().toLowerCase().endsWith(".xml")) {
+                            rutaText.setText(file.getAbsolutePath());
+
+                            Karnaugh processor = new Karnaugh();
+                            Karnaugh.MapaKarnaugh mapa = processor.leerXML(file.getAbsolutePath());
+
+                            if (mapa != null) {
+                                Bool solver = new Bool();
+                                String canonica = solver.calcularFuncionBooleana(mapa.variables, mapa.valores, mapa.nombresVariables);
+                                String simplificada = solver.simplificarFuncion(mapa.variables, mapa.valores, mapa.nombresVariables);
+
+                                int compuertas = solver.calcularCompuertas(simplificada);
+
+                                operacionesArea.setText("Función Booleana Canónica:\n" + canonica +
+                                        "\n\nFunción Booleana Simplificada:\n" + simplificada +
+                                        "\n\nCompuertas necesarias: " + compuertas);
+
+                                dibujarMapaKarnaugh(mapa.variables, mapa.valores, mapa.nombresVariables);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Error al procesar el archivo XML.");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Por favor arrastra solo archivos XML.");
+                        }
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al soltar archivo.");
+                }
+            }
+        });
+
+        
         
     }
 
@@ -96,11 +149,21 @@ public class inicio extends javax.swing.JFrame {
 
     private void rutaTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_rutaTextFocusLost
         if (rutaText.getText().isEmpty()) {
-                    rutaText.setText("Arrastra, coloca o busca el archivo CSV");
-                    //rutaText.setForeground(Color.GRAY);
+                    rutaText.setText("Arrastra, coloca o busca el archivo XML");
+                    rutaText.setForeground(Color.GRAY);
                 }
     }//GEN-LAST:event_rutaTextFocusLost
 
+       
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (rutaText.getText().equals("Arrastra, coloca o busca el archivo CSV")) {
+                    rutaText.setText("");
+                    rutaText.setForeground(Color.BLACK); // Cambiar el color al texto normal
+                }
+            }
+   
+            
+    
     private void cargarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarButtonActionPerformed
 
         JFileChooser fileChooser = new JFileChooser();
@@ -141,12 +204,10 @@ public class inicio extends javax.swing.JFrame {
         int columnas = (int) Math.pow(2, variables - variables / 2);
         mapaPanel.setLayout(new GridLayout(filas + 1, columnas + 1)); // +1 para encabezados
 
-        // Celda superior izquierda vacía
         JLabel vacia = new JLabel("");
         vacia.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         mapaPanel.add(vacia);
 
-        // Encabezados de columna en código Gray
         for (int col = 0; col < columnas; col++) {
             int gray = col ^ (col >> 1);
             String etiqueta = String.format("%" + (variables - variables / 2) + "s", Integer.toBinaryString(gray)).replace(' ', '0');
@@ -155,7 +216,7 @@ public class inicio extends javax.swing.JFrame {
             mapaPanel.add(encabezado);
         }
 
-        // Filas
+  
         for (int fila = 0; fila < filas; fila++) {
             int gray = fila ^ (fila >> 1);
             String etiqueta = String.format("%" + (variables / 2) + "s", Integer.toBinaryString(gray)).replace(' ', '0');
